@@ -1,3 +1,5 @@
+//完全二叉树
+
 #ifndef _BINARYTREE_
 #define _BINARYTREE_
 
