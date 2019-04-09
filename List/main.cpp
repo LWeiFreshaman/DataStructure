@@ -1,5 +1,5 @@
 #include <iostream>
-#include "reverseList.h"
+#include "slowFastPointer.h"
 
 using namespace std;
 
@@ -23,7 +23,7 @@ int main()
 	cout << l << endl;
 	
 	MyList<int> li;
-	for (int i = 0; i < 0; ++i)
+	for (int i = 0; i < 9; ++i)
 	{
 		li.push_back(i);
 	}
@@ -31,6 +31,21 @@ int main()
 	reverseList(li);
 
 	cout << li << endl;
+
+	li.reverseList_recursion();
+
+	cout << li << endl;
+
+	auto tmp = li.getHead();
+	while (tmp->next)
+	{
+		tmp = tmp->next;
+	}
+
+	tmp->next = li.getHead()->next->next;
+
+	cout << li.getHead()->next->next->value << endl;
+	cout << li.findRing()->value << endl;
 
 	return 0;
 }
