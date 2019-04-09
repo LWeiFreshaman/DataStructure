@@ -8,7 +8,7 @@ struct ListNode
 {
 	ListNode(T v) : value(v), next(nullptr) { }
 	ListNode() { }
-	
+
 	ListNode<T> *next;
 	T value;
 };
@@ -22,8 +22,9 @@ public:
 	ListNode<T>* insert(T v, size_t pos);
 	ListNode<T>* remove(T v);
 	ListNode<T>* find(T v);
-	ListNode<T>* getHead(); 
-	
+	ListNode<T>* getHead();
+	ListNode<T>* findRing();
+
 	friend std::ostream& operator << (std::ostream &os, const MyList<T>& l)
 	{
 		ListNode<T> *tmp = l.head;
@@ -62,7 +63,7 @@ public:
 	ListNode<T>* reverseList_recursion_base(ListNode<T> *head) {
 		if (head == nullptr || head->next == nullptr)
 			return head;
-		else 
+		else
 		{
 			ListNode<T> *newNode = reverseList_recursion_base(head->next);
 
@@ -77,8 +78,7 @@ public:
 	{
 		head = reverseList_recursion_base(head);
 	}
-	
-	ListNode<T>* findRing();
+
 private:
 	ListNode<T> *head;
 	size_t size;
@@ -90,7 +90,7 @@ ListNode<T>* MyList<T>::push_back(T v)
 {
 	if (size == 0)
 	{
-		ListNode<T> *node  = new ListNode<T>(v);
+		ListNode<T> *node = new ListNode<T>(v);
 		head = node;
 		++size;
 		return node;
@@ -101,7 +101,7 @@ ListNode<T>* MyList<T>::push_back(T v)
 	{
 		tmp = tmp->next;
 	}
-	ListNode<T> *node  = new ListNode<T>(v);
+	ListNode<T> *node = new ListNode<T>(v);
 	tmp->next = node;
 	++size;
 
@@ -115,18 +115,18 @@ ListNode<T>* MyList<T>::insert(T v, size_t pos)
 		return nullptr;
 	if (pos == 0)
 	{
-		ListNode<T> *node  = new ListNode<T>(v);
+		ListNode<T> *node = new ListNode<T>(v);
 		node->next = head;
 		head = node;
 		return node;
 	}
-	ListNode<T> *tmp = head; 
+	ListNode<T> *tmp = head;
 	while (pos--)
 	{
 		tmp = tmp->next;
 	}
 
-	ListNode<T> *node  = new ListNode<T>(v);
+	ListNode<T> *node = new ListNode<T>(v);
 	node->next = tmp->next;
 	tmp->next = node;
 	++size;
@@ -176,16 +176,18 @@ ListNode<T>* MyList<T>::findRing()
 {
 	ListNode<T> *fast = head, *slow = head;
 
-	while (fast && fast->next && fast != slow)
+	do 
 	{
 		fast = fast->next->next;
 		slow = slow->next;
-	}
+	} while (fast && fast->next && fast != slow);
+	//std::cout << fast->value << " " << slow->value << std::endl;
 	if (fast == slow)
 	{
 		fast = head;
 		while (fast != slow)
 		{
+			//std::cout << fast->value << " " << slow->value << std::endl;
 			fast = fast->next;
 			slow = slow->next;
 		}
