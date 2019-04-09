@@ -58,6 +58,26 @@ public:
 
 		li.head = h;
 	}
+
+	ListNode<T>* reverseList_recursion_base(ListNode<T> *head) {
+		if (head == nullptr || head->next == nullptr)
+			return head;
+		else 
+		{
+			ListNode<T> *newNode = reverseList_recursion_base(head->next);
+
+			head->next->next = head;
+			head->next = nullptr;
+
+			return newNode;
+		}
+	}
+
+	void reverseList_recursion()
+	{
+		head = reverseList_recursion_base(head);
+	}
+
 private:
 	ListNode<T> *head;
 	size_t size;
