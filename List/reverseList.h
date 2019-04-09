@@ -77,7 +77,8 @@ public:
 	{
 		head = reverseList_recursion_base(head);
 	}
-
+	
+	ListNode<T>* findRing();
 private:
 	ListNode<T> *head;
 	size_t size;
@@ -168,6 +169,30 @@ template <typename T>
 ListNode<T>* MyList<T>::getHead()
 {
 	return head;
+}
+
+template <typename T>
+ListNode<T>* MyList<T>::findRing()
+{
+	ListNode<T> *fast = head, *slow = head;
+
+	while (fast && fast->next && fast != slow)
+	{
+		fast = fast->next->next;
+		slow = slow->next;
+	}
+	if (fast == slow)
+	{
+		fast = head;
+		while (fast != slow)
+		{
+			fast = fast->next;
+			slow = slow->next;
+		}
+
+		return fast;
+	}
+	return nullptr;
 }
 
 
