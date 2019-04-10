@@ -18,10 +18,12 @@ class MyList
 {
 public:
 	MyList() : size(0), head(nullptr) { }
-	ListNode<T>* push_back(T v);
-	ListNode<T>* insert(T v, size_t pos);
-	ListNode<T>* remove(T v);
-	ListNode<T>* find(T v);
+	MyList(const std::initializer_list<T> &ini);
+	~MyList();
+	ListNode<T>* push_back(const T& v);
+	ListNode<T>* insert(const T& v, size_t pos);
+	ListNode<T>* remove(const T& v);
+	ListNode<T>* find(const T& v);
 	ListNode<T>* getHead();
 	ListNode<T>* findRing();
 
@@ -86,7 +88,40 @@ private:
 };
 
 template <typename T>
-ListNode<T>* MyList<T>::push_back(T v)
+MyList<T>::MyList(const std::initializer_list<T> &ini) : size(0)
+{
+	for (auto i : ini)
+	{
+		push_back(i);
+	}
+}
+
+template <typename T>
+MyList<T>::~MyList()
+{
+	//查找有无成环，若有，拆掉
+	if (auto ringPos = findRing())
+	{
+		//std::cout << _hot->value << std::endl;
+		_hot->next = nullptr;
+	}
+	ListNode<T> *tmp = head, *tmpNext;
+
+	while (tmp)
+	{
+		//std::cout << tmp->value << " ";
+		tmpNext = tmp->next;
+		delete(tmp);
+		tmp = tmpNext;
+	}
+	std::cout << std::endl;
+
+	head = nullptr;
+	size = 0;
+}
+
+template <typename T>
+ListNode<T>* MyList<T>::push_back(const T& v)
 {
 	if (size == 0)
 	{
@@ -109,7 +144,7 @@ ListNode<T>* MyList<T>::push_back(T v)
 }
 
 template <typename T>
-ListNode<T>* MyList<T>::insert(T v, size_t pos)
+ListNode<T>* MyList<T>::insert(const T& v, size_t pos)
 {
 	if (pos + 2 > size)
 		return nullptr;
@@ -135,7 +170,7 @@ ListNode<T>* MyList<T>::insert(T v, size_t pos)
 }
 
 template<typename T>
-ListNode<T>* MyList<T>::find(T v)
+ListNode<T>* MyList<T>::find(const T& v)
 {
 	ListNode<T> *tmp = head;
 	while (tmp)
@@ -150,7 +185,7 @@ ListNode<T>* MyList<T>::find(T v)
 }
 
 template <typename T>
-ListNode<T>* MyList<T>::remove(T v)
+ListNode<T>* MyList<T>::remove(const T& v)
 {
 	ListNode<T> *tmp = find(v);
 
@@ -188,6 +223,7 @@ ListNode<T>* MyList<T>::findRing()
 		while (fast != slow)
 		{
 			//std::cout << fast->value << " " << slow->value << std::endl;
+			_hot = slow;
 			fast = fast->next;
 			slow = slow->next;
 		}
