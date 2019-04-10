@@ -4,7 +4,7 @@
 using namespace std;
 
 int main()
-{
+{	
 	MyList<int> l;
 	for (int i = 0; i < 8; ++i)
 	{
@@ -44,8 +44,13 @@ int main()
 
 	tmp->next = li.getHead()->next->next;
 
-	cout << li.getHead()->next->next->value << endl;
-	cout << li.findRing()->value << endl;
+	//cout << li.getHead()->next->next->value << endl;
+	if (auto ringPos = li.findRing())
+		cout << ringPos->value << endl;
+
+	MyList<int> l2{1, 2, 5, 8, 9, 11, 16};
+
+	cout << l2 << endl;
 
 	return 0;
 }
