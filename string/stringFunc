@@ -1,0 +1,20 @@
+//split without pattern string.
+
+std::vector<std::string> splitNoPattern(const string& s, const string& pattern)
+{
+	std::vector<std::string> result;
+	size_t lastPos = 0, pos;
+
+	while ((pos = s.find(pattern, lastPos)) != s.npos)
+	{
+		std::string tmp = s.substr(lastPos, pos - lastPos);
+		if (tmp.length())
+			result.emplace_back(tmp);
+		lastPos = pos + pattern.length();
+	}
+	std::string tmp = s.substr(lastPos, pos - lastPos);
+	if (tmp.length())
+		result.emplace_back(tmp);
+
+	return result;
+}
