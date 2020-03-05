@@ -6,6 +6,7 @@
 #include <queue>
 #include <string>
 #include <list>
+#include <functional>
 
 using namespace std;
 
@@ -16,6 +17,12 @@ public:
     : m_index(index), m_val(val), m_parent(parent), hasX(false), failedPtr(nullptr)
     {
         
+    }
+
+    ~TreeNode()
+    {
+        m_parent = nullptr;
+        failedPtr = nullptr;
     }
 
     TreeNode* addChild(int nodeIndex, int nodeVal);
@@ -39,12 +46,25 @@ public:
     TrieTree()
     {
         root = new TreeNode(0, 0, nullptr);
-        root->failedPtr = root;                     //root的失败节点指向自身（重要）
+        root->failedPtr = root;     //root的失败节点指向自身（重要）
+    }
+    ~TrieTree()
+    {
+        function<void(TreeNode*)> f = [](TreeNode* node){
+            if (node)
+            {
+                delete node;
+                cout << 1;
+            }
+        };
+        traversal(f);
     }
     void addPath(const string& path, int value);
     void setFailedPtr();
-    void traversal();
+    void traversal(function<void(TreeNode*)>& f);
     int findPath(const string& str);
 };
+
+
 
 #endif
