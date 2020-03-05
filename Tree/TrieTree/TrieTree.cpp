@@ -87,7 +87,7 @@ void TrieTree::setFailedPtr()
     }  
 }
 
-void TrieTree::traversal()
+void TrieTree::traversal(function<void(TreeNode*)>& f)
 {
     queue<TreeNode *> q;
     q.push(root);
@@ -102,12 +102,13 @@ void TrieTree::traversal()
         }
         else 
         {
-            cout << tmp << "-" << tmp->m_index << "-" << tmp->m_val << "-" << tmp->hasX << "-" << tmp->failedPtr << " ";
             for (auto iter : tmp->m_children)
             {
                 q.push(iter);
             }
+            f(tmp);
         }
+            
         q.pop();
     }
 }
@@ -150,6 +151,21 @@ int TrieTree::findPath(const string& str)
     return result;
 }
 
+int main()
+{
+    TrieTree tree;
+
+    tree.addPath("2887", 1);
+    tree.addPath("2x1", 2);
+    tree.addPath("2x7", 3);
+    tree.addPath("xxx9", 4);
+
+    function<void (TreeNode*)> f = [](TreeNode* node) {
+        cout << node << "-" << node->m_index << "-" << node->m_val << "-" << node->failedPtr << " ";
+    };
+
+    tree.traversal(f);
+}
 
 
 
