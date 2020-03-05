@@ -132,7 +132,7 @@ TreeNode* TrieTree::findIndex(TreeNode* node, int index, int& result, bool first
     if (hasFind == false)                            //未找到
     {
         auto tmp = node->failedPtr;
-        return findIndex(tmp, index, result, false);
+        return findIndex(tmp, index, result, false);        //换成失败指针，继续找，直到找到root，说明查找结束。
     }
 }
 int TrieTree::findPath(const string& str)
