@@ -50,6 +50,7 @@ public:
     }
     ~TrieTree()
     {
+        /*
         function<void(TreeNode*)> f = [](TreeNode* node){
             if (node)
             {
@@ -57,11 +58,19 @@ public:
                 cout << 1;
             }
         };
-        traversal(f);
+        */
+        traversal([](TreeNode* node){
+            if (node)
+            {
+                delete node;
+                cout << 1;
+            }
+        });
     }
     void addPath(const string& path, int value);
     void setFailedPtr();
-    void traversal(function<void(TreeNode*)>& f);
+    template <typename Func>
+    void traversal(Func&& f);
     int findPath(const string& str);
 };
 
