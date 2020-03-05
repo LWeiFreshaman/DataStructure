@@ -87,7 +87,8 @@ void TrieTree::setFailedPtr()
     }  
 }
 
-void TrieTree::traversal(function<void(TreeNode*)>& f)
+template <typename Func>
+void TrieTree::traversal(Func&& f)
 {
     queue<TreeNode *> q;
     q.push(root);
@@ -160,11 +161,15 @@ int main()
     tree.addPath("2x7", 3);
     tree.addPath("xxx9", 4);
 
+    /*
     function<void (TreeNode*)> f = [](TreeNode* node) {
         cout << node << "-" << node->m_index << "-" << node->m_val << "-" << node->failedPtr << " ";
     };
+    */
 
-    tree.traversal(f);
+    tree.traversal([](TreeNode* node) {
+        cout << node << "-" << node->m_index << "-" << node->m_val << "-" << node->failedPtr << " ";
+    });
 }
 
 
