@@ -39,7 +39,7 @@ public:
     TrieTree()
     {
         root = new TreeNode(0, 0, nullptr);
-        root->failedPtr = root;
+        root->failedPtr = root;                     //root的失败节点指向自身（重要）
     }
     void addPath(const string& path, int value);
     void setFailedPtr();
